@@ -1,0 +1,215 @@
+<html>
+	<body>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script>
+		var circleRadius = 4;
+		
+		/**
+		 * Main method to process the numerator and denominator.
+		 * @param {number} numerator - the passed numberator
+		 * @param {number} denominator - the passed denominator
+		 */
+		function drawFractionAsCircles(numerator, denominator) {
+			var fraction = new Fraction();
+			fraction.numerator = numerator.value * 1;
+			fraction.denominator = denominator.value * 1
+
+			if (fraction.denominator == 0) {
+				alert("Invalid denominator")
+			}
+
+			var fractionProcessor =  new FractionProcessor();
+			fractionProcessor.process(fraction);
+		}
+		
+		/**
+		 * Represents a fraction.
+		 * @constructor
+		 * @param {number} numerator - the passed numberator
+		 * @param {number} denominator - the passed denominator
+		 */
+		function Fraction() {
+			this.numerator = 0;
+
+			this.denominator = 1;
+
+			/** The division integer value between numerator and denominator. */
+		    this.getDivisionResult = function () {
+				return Math.floor(this.numerator / this.denominator);
+			};
+
+			/** The division between numerator and denominator. */
+		    this.getDivisionResultWithDigits = function () {
+				var result = this.numerator / this.denominator;
+				return parseFloat(result.toFixed(4));
+			};
+
+			/** The residue of the division between numberator and denominator. */
+			this.getResidue = function () {
+				return this.numerator % this.denominator;
+			};
+		}
+		
+		/**
+		 * Fraction processor class, to calculate the segment values and manage the drawing process.
+		 * @constructor
+		 */
+		function FractionProcessor() {
+			var uiProcessor = new UICircleProcessor();
+
+			var calculateRadiansValue = function (numberOfFragments) {
+				return (2 * Math.PI) / numberOfFragments;
+			};
+
+			/** 
+			 * Calculates the segments and calls manages the drawing. 
+			 * @param {Fraction} fraction - fraction to be processed
+			 */
+			this.process = function (fraction) {
+				uiProcessor.createCircleCanvas(
+					fraction.getDivisionResult(), fraction.getResidue() > 0);
+
+				var segmentAngle = calculateRadiansValue(fraction.denominator);
+				for (var index = 0; index < fraction.getDivisionResult(); index++) {
+					uiProcessor.drawCircle("circle" + index, fraction.denominator, segmentAngle);
+				}
+
+				var residue = fraction.getResidue();
+				if (residue > 0) {
+					uiProcessor.drawCircle("fraction-circle", residue, segmentAngle);
+				}
+				
+				uiProcessor.updateResultSpan("division-result", fraction.getDivisionResult());
+				uiProcessor.updateResultSpan("nu-result", fraction.getResidue());
+				uiProcessor.updateResultSpan("de-result", fraction.denominator);
+				uiProcessor.updateResultSpan("division-result-complete", fraction.getDivisionResultWithDigits());
+			};
+		}
+
+		/**
+		 * Class to manage UI components.
+		 * @constructor
+		 */
+		function UICircleProcessor() {
+			var createCanvasHTML = function (canvasID) {
+				return "<canvas id='" + canvasID +
+					"' width='150' height='150' style='border:1px solid #d3d3d3;'></canvas>";
+			}
+
+			/**
+			 * Creates the html canvas components.
+			 * @param {number} numberOfCanvas - the number of canvas to create
+			 * @param {boolean} addFractionCanvas - if true, add another cavas for the fraction circle.
+			 */
+			this.createCircleCanvas = function (numberOfCanvas, addFractionCanvas) {
+				var allCanvas = "<div class='row'><div class='col-md-10'>";
+
+				var columnCounter = 1;
+				for (var index = 0; index < numberOfCanvas; index++) {
+
+					allCanvas += createCanvasHTML("circle" + index);
+
+					if (columnCounter == circleRadius) {
+						allCanvas += "</div></div>";
+						allCanvas += "<div class='row'><div class='col-md-10'>";
+						columnCounter = 0;
+					}
+					columnCounter++;
+				}
+				if (addFractionCanvas) {
+					allCanvas += createCanvasHTML("fraction-circle");
+				}
+				allCanvas += "</div></div>"
+				
+
+				document.getElementById('canvas-container').innerHTML = allCanvas;
+			}
+			
+			/**
+			 * Updates the UI with the result spans.
+			 * @param {string} spanId - the id of the html element
+			 * @param {string} result - the result to show
+			 */
+			this.updateResultSpan = function (spanId, result) {
+				document.getElementById(spanId).innerHTML = result;
+			}
+
+			/**
+			 * Draws a circle with its fragments.
+			 * @param {string} canvasID - the id of the html canvas
+			 * @param {number} limit - the number of circles to draw
+			 * @param {number} segmentAngle - the value of each segment
+			 */
+			this.drawCircle = function (canvasID, limit, segmentAngle) {
+				var element = document.getElementById(canvasID);
+				var context = element.getContext("2d");
+				for (var index = 0; index < limit; index++) {
+					var initial = Math.PI * 1.5 + (segmentAngle * index);
+					context.beginPath();
+					context.moveTo(75, 75);
+					context.arc(75, 75, 50, initial , initial + segmentAngle);
+					context.lineWidth = 2;
+					var color = 15;
+					context.fillStyle = 'hsl(' + color + ',70%, 60%)';
+					context.fill();
+					context.lineWidth = 2;
+					context.strokeStyle = '#000';
+					context.stroke();
+				}
+			}
+		}
+	</script>
+	<style>
+	.bottom {
+		border-bottom: thin solid #000000;
+	}
+	</style>
+	</body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<strong>Improper Fractions to Mixed Fractions:</strong>
+			</div>
+		</div>
+		
+		<div class="row  bottom">
+			<div class="col-md-5">
+				<label>Nu: <input id="input-nu" type="number" min="0" size="4" required></label>
+				<br />
+				<label>De: <input id="input-de" type="number" min="1" size="4" required></label>
+				<button id="draw-button">Calculate</button>
+			</div>
+			<div class="col-md-5">
+				<table>
+					<tr>
+						<td><strong>Mixed Fraction:</strong></td>
+						<td rowspan="2"><span id="division-result"></span></td>
+						<td class="bottom"><span id="nu-result"></span></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><span id="de-result"></span></td>
+					</tr>
+					<tr>
+						<td><strong>Decimal Fraction:</strong></td>
+						<td colspan="2"><span id="division-result-complete"></span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="row" id="canvas-container" class="container">
+		</div>
+	</div>
+	
+	<script>
+		(function setUp() {
+			var numeratorInput = document.getElementById('draw-button');
+			numeratorInput.onclick = function () {
+				drawFractionAsCircles(
+					document.getElementById('input-nu'), 
+					document.getElementById('input-de'));
+			}
+		}
+		)();
+	</script>
+</html>
