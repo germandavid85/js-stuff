@@ -6,3 +6,8 @@ graphical editor that will allow a user to add and manipulate different geometri
 - index.htm: contains the html structure that contains the buttons and canvas
 - script/draws.js: contains the functions to draw the compnents using fabric.js
 - style/styles.css: misc of styles
+
+## Use
+- git clone this repository ```git@github.com:germandavid85/js-stuff.git```
+- cd to ```paint``` directory
+- open index.html in you favorite browser

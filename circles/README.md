@@ -9,3 +9,8 @@ widget that represents Improper Fractions as an array of segmented circles, as a
 - Fraction: representation of a Fraction object
 - FractionProcessor: contains the logic to control the Fraction data and pass it to the UI processor
 - UICircleProcessor: contains the logic to draw the circles and fractions in the html canvas
+
+## Use
+- git clone this repository ```git@github.com:germandavid85/js-stuff.git```
+- cd to ```circles``` directory
+- open index.html in you favorite browser
