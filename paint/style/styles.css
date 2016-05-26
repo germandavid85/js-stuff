@@ -1,0 +1,15 @@
+.border-show {
+  border: thin solid #000000;
+}
+
+.show-grid {
+    margin-bottom: 15px;
+}
+
+.bottom {
+		border-bottom: thin solid #000000;
+}
+
+.fill {
+  height: 450;
+}

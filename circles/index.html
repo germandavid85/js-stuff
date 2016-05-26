@@ -2,8 +2,9 @@
 	<body>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<script>
-		var circleRadius = 4;
-		
+    'use strict';
+		circleRadius = 4;
+
 		/**
 		 * Main method to process the numerator and denominator.
 		 * @param {number} numerator - the passed numberator
@@ -21,7 +22,7 @@
 			var fractionProcessor =  new FractionProcessor();
 			fractionProcessor.process(fraction);
 		}
-		
+
 		/**
 		 * Represents a fraction.
 		 * @constructor
@@ -49,7 +50,7 @@
 				return this.numerator % this.denominator;
 			};
 		}
-		
+
 		/**
 		 * Fraction processor class, to calculate the segment values and manage the drawing process.
 		 * @constructor
@@ -61,8 +62,8 @@
 				return (2 * Math.PI) / numberOfFragments;
 			};
 
-			/** 
-			 * Calculates the segments and calls manages the drawing. 
+			/**
+			 * Calculates the segments and calls manages the drawing.
 			 * @param {Fraction} fraction - fraction to be processed
 			 */
 			this.process = function (fraction) {
@@ -78,7 +79,7 @@
 				if (residue > 0) {
 					uiProcessor.drawCircle("fraction-circle", residue, segmentAngle);
 				}
-				
+
 				uiProcessor.updateResultSpan("division-result", fraction.getDivisionResult());
 				uiProcessor.updateResultSpan("nu-result", fraction.getResidue());
 				uiProcessor.updateResultSpan("de-result", fraction.denominator);
@@ -120,11 +121,11 @@
 					allCanvas += createCanvasHTML("fraction-circle");
 				}
 				allCanvas += "</div></div>"
-				
+
 
 				document.getElementById('canvas-container').innerHTML = allCanvas;
 			}
-			
+
 			/**
 			 * Updates the UI with the result spans.
 			 * @param {string} spanId - the id of the html element
@@ -171,7 +172,7 @@
 				<strong>Improper Fractions to Mixed Fractions:</strong>
 			</div>
 		</div>
-		
+
 		<div class="row  bottom">
 			<div class="col-md-5">
 				<label>Nu: <input id="input-nu" type="number" min="0" size="4" required></label>
@@ -200,13 +201,13 @@
 		<div class="row" id="canvas-container" class="container">
 		</div>
 	</div>
-	
+
 	<script>
 		(function setUp() {
 			var numeratorInput = document.getElementById('draw-button');
 			numeratorInput.onclick = function () {
 				drawFractionAsCircles(
-					document.getElementById('input-nu'), 
+					document.getElementById('input-nu'),
 					document.getElementById('input-de'));
 			}
 		}

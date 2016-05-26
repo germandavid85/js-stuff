@@ -1,0 +1,46 @@
+<html>
+	<body>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style/styles.css">
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="script/draws.js"></script>
+	<style>
+
+	</style>
+	</body>
+	<div class="container">
+    <div class="row">
+      <div class="col-md-2 border-show fill">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2">
+							ADD
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2 border">
+							<button id="draw-button" class="btn btn-default" onclick="addCircle()">&#9899;</button>
+			        <button id="draw-button" class="btn btn-default" onclick="addRect()"><i class="glyphicon glyphicon-stop"></i></button>
+			        <button id="draw-button" class="btn btn-default" onclick="addTriangle()"><i class="glyphicon glyphicon-triangle-top"></i></button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2">
+							DELETE
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2">
+							<button id="draw-button" class="btn btn-default" onclick="deleteItem()"><i class="glyphicon glyphicon-remove"></i></button>
+						</div>
+					</div>
+				</div>
+      </div>
+      <div class="col-md-8 border-show">
+        <canvas id="c3" width="800" height="450"></canvas>
+    	</div>
+    </div>
+  </div>
+</html>
