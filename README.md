@@ -1,3 +1,3 @@
 Misc js / HTML stuff
 
-now is beta
+now is 0.0.3 V
